@@ -1,2 +1,0 @@
-The median is : 2
-The median is : 461
