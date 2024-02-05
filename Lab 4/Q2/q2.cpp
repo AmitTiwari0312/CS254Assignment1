@@ -1,67 +1,61 @@
+
 #include <bits/stdc++.h>
 using namespace std;
 
-double findMedian(int* a, int n, int* b, int m) {
+int getMedian(int ar1[], int ar2[], int n, int m)
+{
+	int i = 0; 
+	int j = 0;
+	int count;
+	int m1 = -1, m2 = -1;
 
-	int index1 = 0, index2 = n, i, j, median;
-
-	while (index1 <= index2) {
-		i = (index1 + index2) / 2;
-		j = ((n + m + 1) / 2) - i;
-
-		if (j < 0) {
-			index2 = i - 1;
-			continue;
-		}
-
-		if (i < n && j > 0 && b[j - 1] > a[i])
-			index1 = i + 1;
-
-		else if (i > 0 && j < m && b[j] < a[i - 1])
-			index2 = i - 1;
-
-		else {
-			if (i == 0) median = b[j - 1];
-			else if (j == 0) median = a[i - 1];
-			else median = max(a[i - 1], b[j - 1]);
-			break;
-		}
-	}
-
-	if ((n + m) % 2 == 1)
-		return (double)median;
-
-	if (i == n)
-		return (median + b[j]) / 2.0;
-
-	if (j == m)
-		return (median + a[i]) / 2.0;
-
-	return (median + min(a[i], b[j])) / 2.0;
-}
-
-int main() {
-
-    ifstream iF("input.txt");
-    ofstream oF("output.txt");
-
-    int t; iF >> t;
-    while (t--) {
-		int n; iF >> n;
-		int m; iF >> m;
-		int a[n],b[m];
-		for (int i=0; i<n; i++) iF >> a[i];
-		for (int i=0; i<m; i++) iF >> b[i];
+	for (count = 0; count <= (m + n) / 2; count++) {
 		
-		oF << "The median is : ";
-		if (n < m) oF << findMedian(a, n, b, m);
-		else oF << findMedian(b, m, a, n);
-		oF << endl;
+		m2 = m1;
+		if (i != n && j != m) {
+			m1 = (ar1[i] > ar2[j]) ? ar2[j++] : ar1[i++];
+		}
+		else if (i < n) {
+			m1 = ar1[i++];
+		}
+		
+		else {
+			m1 = ar2[j++];
+		}
+	}
+	if ((m + n) % 2 == 1) {
+		return m1;
+	}
+	else {
+		return (m1 + m2) / 2;
+	}
+}
+
+int main()
+{
+    ifstream inputFile("input.txt");
+    ofstream outputFile("output.txt");
+
+    int t; inputFile >> t;
+    while (t--) {
+		int n; inputFile >> n;
+		int m; inputFile >> m;
+		int ar1[n],ar2[m];
+		for (int i=0; i<n; i++) inputFile >> ar1[i];
+		for (int i=0; i<m; i++) inputFile >> ar2[i];
+		
+		outputFile << "The median is : ";
+
+	int n1 = sizeof(ar1) / sizeof(ar1[0]);
+	int n2 = sizeof(ar2) / sizeof(ar2[0]);
+	outputFile << getMedian(ar1, ar2, n1, n2);
+	outputFile << endl;
 
 	}
 
-    iF.close();
-    oF.close();
+    inputFile.close();
+    outputFile.close();
+return 0;}
 
-	return 0;
-}
+
+
