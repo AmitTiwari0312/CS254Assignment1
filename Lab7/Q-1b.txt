@@ -1,0 +1,1 @@
+No, greedy method will not give optimal solution in many cases including this case too.

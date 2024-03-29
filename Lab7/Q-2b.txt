@@ -1,0 +1,1 @@
+Yes, this greedy method will always give optimal solution.
